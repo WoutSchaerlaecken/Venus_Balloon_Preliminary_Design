@@ -14,6 +14,7 @@ T2, p2,_ = venus_atmosphere(H2)
 
 balloon_ratio = 1/3
 
+He_permeability = 700 #cm^3/m^2/day for wrinkled at 50C
 
 inflation_mass = 2
 sample_collection_mass = 1
@@ -79,27 +80,42 @@ for i in range(20):
 gondola_volume = gondola_mass / gondola_density
 gondola_size = gondola_volume **(1/3)
 
-max_radius = (V_zp * 3 / (4 * np.pi)) ** (1/3)
-max_diameter = max_radius * 2
+#calculate the duration based on Helium leaking
 
 
-print("\nVarying altitude balloon sizing for a paylad mass of",payload_mass,"kg and an altitude ranging from",H1,"km to",H2,"km:")
-print("assuming a gondola mass of", gondola_mass, "kg, and an inflation system mass of", inflation_mass, "kg, a super pressure balloon volume of", V_SP, "m^3 and a maximum super pressure of", DP1, "Pa:")
-print("\ngondola mass: ", gondola_mass)
-print("\nsuper pressure balloon mass: ", round(SP_Balloon_mass,2),"kg")
-print("zero pressure balloon mass: ", round(ZP_balloon_mass,2),"kg")
-print("super pressure balloon diameter:", round(r_sp*2,2),"m")
-print("zero pressure balloon diameter:", round(r_zp*2,2),"m")
-print("total helium moles: ", round(n_sp1 + n_zp1,2),"mol")
-print("helium mass: ", round(He_mass,2),"kg")
-print("Super pressure at ", H1, "km: ", DP1,"Pa")
-print("Super pressure at ", H2, "km: ", round(DP2, 2),"Pa")
-print("moles of gas in super pressure balloon at ", H1, "km: ", round(n_sp1, 2),"mol")
-print("moles of gas in super pressure balloon at ", H2, "km: ", round(n_sp2, 2),"mol")
-print("zero pressure balloon volume at",H1,"km : ", round(V_zp1, 2),"m^3")
-print("zero pressure balloon volume at",H2,"km : ", round(V_zp, 2),"m^3")
-print("\nFinal total mass: ", total_mass, "kg")
-print("\n")
+zp_2_surface = r_zp**2 * 4 * np.pi
+n_lost = p1*zp_2_surface * He_permeability * 1e-6 / (R * T1)
+a = zp_2_surface * He_permeability * 1e-6 
+
+B = (n_zp2-n_lost*6)*R/R_Venus + p1/(R_Venus*T1)*V_SP
+
+days = 1/n_lost * (n_zp2 + p1/(R*T1) * V_SP - total_mass * R_Venus/R)
+
+
+
+
+
+
+print("\nVarying altitude balloon sizing for a payload mass of", payload_mass, "kg and an altitude ranging from", H1, "km to", H2, "km:")
+print("Assuming a gondola mass of", gondola_mass, "kg, and an inflation system mass of", inflation_mass, "kg,")
+print("a super pressure balloon volume of", round(V_SP, 2), "m^3 and a maximum super pressure of", DP1, "Pa:\n")
+
+print(f"{'Gondola mass:':<40} {gondola_mass:.2f} kg")
+print(f"{'Super pressure balloon mass:':<40} {SP_Balloon_mass:.2f} kg")
+print(f"{'Zero pressure balloon mass:':<40} {ZP_balloon_mass:.2f} kg\n")
+print(f"{'Super pressure balloon diameter:':<40} {r_sp*2:.2f} m")
+print(f"{'Zero pressure balloon diameter:':<40} {r_zp*2:.2f} m\n")
+print(f"{'Total helium moles:':<40} {n_sp1 + n_zp1:.2f} mol")
+print(f"{'Helium mass:':<40} {He_mass:.2f} kg\n")
+print(f"{'Super pressure at ' + str(H1) + ' km:':<40} {DP1:.2f} Pa")
+print(f"{'Super pressure at ' + str(H2) + ' km:':<40} {DP2:.2f} Pa\n")
+print(f"{'Moles in SP balloon at ' + str(H1) + ' km:':<40} {n_sp1:.2f} mol")
+print(f"{'Moles in SP balloon at ' + str(H2) + ' km:':<40} {n_sp2:.2f} mol\n")
+print(f"{'ZP balloon volume at ' + str(H1) + ' km:':<40} {V_zp1:.2f} m^3")
+print(f"{'ZP balloon volume at ' + str(H2) + ' km:':<40} {V_zp:.2f} m^3\n")
+print(f"{'Final total mass:':<40} {total_mass:.2f} kg")
+print(f"{'The balloon will stay within the altitude range of ' + str(H1) + ' km to ' + str(H2) + ' km for:':<40} {days:.2f} days")
+
 
 # Plot the results
 plt.figure(figsize=(10, 6))
