@@ -5,11 +5,11 @@ from constants import *
 
 """just realised that this is actually for earth, so should be better on Venus"""
 t_round = 6 #days
-Pd = 20 #W
+Pd = 25 #W
 Pe = 1 #W
 Psp = 75 #specific power in W/kg
 P_delta = 5/1000 #area per power in m^2/W 
-E_sp = 150 #specific power W/kg
+E_sp = 130 #specific power W/kg
 
 
 td = 24*3600*t_round * 0.5
@@ -17,12 +17,12 @@ te = 24*3600*t_round * 0.5
 
 eta_d = 0.8
 eta_e = 0.6
-eta_bat = 0.8
+eta_bat = 0.9
 DOD = 0.7
 
-SC = 1300 #W/m^2 conservative estimate for around 50km
-eta_1 = 0.3 #conversion efficiency of solar cells
-eta_2 = 0.9 #packing density of solar cells
+SC = 1000 #W/m^2 conservative estimate for around 50km
+eta_1 = 0.18 #conversion efficiency of solar cells
+eta_2 = 0.8 #packing density of solar cells
 rho = 2  #kg/m^2 solar array mass density
 
 gondola_mass = payload_mass / probe.payload_percentage
@@ -53,5 +53,9 @@ M_pmd = 1/3 * total_power_mass
 
 print("\nPower mass distribution: ", M_pmd)
 print("\nUpdated total power mass: ", total_power_mass)
+
+if __name__ == "__main__":
+    # Execute the main functionality of the script
+    pass
 
 

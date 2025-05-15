@@ -13,6 +13,7 @@ p3 = 71162
 
 
 
+
 V_SP = 5
 
 Mhe = 4.0026 /1000 # kg/mol
@@ -29,14 +30,14 @@ gondola_density = 700  # kg/m^3
 
 
 probe = SpacecraftBudgets(
-    payload_percentage=20,
-    structures_percentage=7.222,
-    thermal_percentage=5,
-    power_percentage=27.7777,
-    ttc_percentage=17.2222,
-    processing_percentage=4.6,
+    payload_percentage=23.8,
+    structures_percentage=17.4,
+    thermal_percentage=6.5,
+    power_percentage=28.2,
+    ttc_percentage=13.5,
+    processing_percentage=10.5,
     adcs_percentage = 0,
-    other_percentage=3.5,
+    other_percentage= 0,
     payload_power=50,
     power_power=5,
     ttc_power=25,
