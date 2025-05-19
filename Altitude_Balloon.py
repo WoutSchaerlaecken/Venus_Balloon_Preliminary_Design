@@ -6,12 +6,13 @@ import matplotlib.pyplot as plt
 from Venus_atmosphere import venus_atmosphere
 from Power_Balloon import Pd
 
-H1 = 45
+H1 = 40
 H2 = 57
 
 
-T1, p1,_ = venus_atmosphere(H1)
+T1, p1,rho = venus_atmosphere(H1)
 T2, p2,_ = venus_atmosphere(H2)
+
 
 print(T2)
 
@@ -25,7 +26,7 @@ sample_collection_mass = 1
 power_mass = 2
 
 
-probe_mass = payload_mass / probe.payload_percentage
+probe_mass = payload_mass / probe.payload_percentage 
 print(probe_mass*probe.power_percentage)
 print("probe mass: ", probe_mass)
 structures_mass = probe_mass * probe.structures_percentage
@@ -174,16 +175,16 @@ import matplotlib.pyplot as plt
 
 # Mass breakdowns
 gondola_labels = [
-    "Payload", "Structures", "Thermal", "Power", "TTC",
-    "Processing", "Other", "Sampling Mechanism"
+    "Payload", "Structures", "Thermal", "Power", "Communications",
+    "Command & Data Handling", "Sampling System"
 ]
 gondola_values = [
     payload_mass, structures_mass, thermal_mass, power_mass, ttc_mass,
-    processing_mass, other_mass, sample_collection_mass
+    processing_mass, sample_collection_mass
 ]
 
 balloon_labels = [
-    "Inflation Mechanism", "Super Pressure Balloon", "Zero Pressure Balloon", "Helium"
+    "Pressure system", "Super Pressure Balloon", "Zero Pressure Balloon", "Helium"
 ]
 balloon_values = [
     inflation_mass, SP_Balloon_mass, ZP_balloon_mass, He_mass
@@ -323,4 +324,39 @@ ax.set_title("3D Balloon and Gondola Visualization")
 ax.set_xlabel("X (m)")
 ax.set_ylabel("Y (m)")
 ax.set_zlabel("Z (m)")
+
+
+
+# 2D Visualization (side view)
+fig2, ax2 = plt.subplots(figsize=(8, 8))
+
+# Draw balloon as a circle
+balloon_circle = plt.Circle((0, r_zp * 1.5), r_zp, color='blue', alpha=0.5, label='Balloon')
+ax2.add_patch(balloon_circle)
+
+# Draw gondola as a square
+gondola_bottom = -gondola_size / 2
+gondola_left = -gondola_size / 2
+gondola_square = plt.Rectangle(
+    (gondola_left, gondola_bottom), gondola_size, gondola_size,
+    color='red', alpha=0.7, label='Gondola'
+)
+ax2.add_patch(gondola_square)
+
+# Draw line connecting balloon and gondola
+ax2.plot(
+    [0, 0],
+    [r_zp * 1.5 - r_zp, gondola_bottom + gondola_size],
+    color='black', linestyle='--'
+)
+
+# Set limits and labels
+ax2.set_xlim(-r_zp * 1.5, r_zp * 1.5)
+ax2.set_ylim(-gondola_size * 2, r_zp * 3.5)
+ax2.set_aspect('equal')
+ax2.set_xlabel("X (m)")
+ax2.set_ylabel("Z (m)")
+ax2.set_title("2D Side View: Balloon and Gondola")
+ax2.legend(loc="upper right", fontsize=25)
+plt.tight_layout()
 plt.show()

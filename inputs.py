@@ -23,9 +23,9 @@ Ma = 43.449175/1000 # kg/mol
 payload_mass = 1
 
 #total_mass = 25
-balloon_material_density = 0.2  # kg/m^2
+balloon_material_density = 0.2 # kg/m^2
 SP_balloon_material_density = 0.25  # kg/m^2
-gondola_density = 700  # kg/m^3
+gondola_density = 338  # kg/m^3
 
 
 

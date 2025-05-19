@@ -29,8 +29,10 @@ gondola_mass = payload_mass / probe.payload_percentage
 power_mass = gondola_mass * probe.power_percentage
 
 P_sa = 1/td *(Pd*td/eta_d + Pe*te/eta_e)
+print("P_sa: ", P_sa)
 
 array_area = P_sa/(eta_1 * eta_2 * SC)
+#array_area = P_sa/300
 array_mass = rho * array_area
 
 #array_area = P_delta * P_sa
